@@ -1,6 +1,5 @@
 import json
 import requests
-from decouple import config
 
 class BaseApi():
     def __init__(self, url, username, password, web):
@@ -35,8 +34,7 @@ class BaseApi():
         except Exception as e:
             print(e)
 
-    def get_emprestimo_renovavel(self):
-        url = f'{self.url}/api/biblioteca/listaemprestimorenovavel'
+    def request(self, method, path, **kwargs):
         headers = {
             'Authorization': self.access_token
         }
@@ -46,30 +44,16 @@ class BaseApi():
             'codpessoa': self.cod_pessoa
         }
 
-        try:
-            response = requests.post(
+        if kwargs.get('body'):
+            kbody = kwargs.get('body')
+            body.update(**kbody)
+
+        url = f'{self.url}{path}'
+        response = requests.request(
+                method,
                 url,
-                body,
+                body=body,
                 headers=headers
             )
-
-            if response.status_code == 200:
-                content = json.loads(response.text)
-                print(content)
-        except Exception as e:
-            print(e)
-
-
-url = config('URL')
-username = config('USERNAME')
-password = config('PASSWORD')
-web = config('WEB')
-
-base_api = BaseApi(
-    url,
-    username,
-    password,
-    web
-)
-
-base_api.get_emprestimo_renovavel()
+        
+        return response
