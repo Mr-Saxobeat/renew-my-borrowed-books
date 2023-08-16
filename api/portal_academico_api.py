@@ -12,7 +12,8 @@ class PortalAcademicoApi(BaseApi):
             config('WEB'),
         )
 
-    def list_emprestimo_renovavel(self):
+
+    def lista_emprestimo_renovavel(self):
         path = f'/api/biblioteca/listaemprestimorenovavel'
 
         try:
@@ -29,7 +30,7 @@ class PortalAcademicoApi(BaseApi):
             print(e)
 
 
-    def post_renova_obra(self, code):
+    def renova_obra(self, code):
         path = f'/api/biblioteca/renovaobra'
 
         body = {
