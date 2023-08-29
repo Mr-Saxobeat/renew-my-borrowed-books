@@ -23,15 +23,11 @@ class PortalAcademicoApi(BaseApi):
         }
 
         try:
-            response = self.request(
-                path,
-            )
-
-            response = self.request('GET', path)
+            response = self.request('POST', path, headers=headers)
 
             if response.status_code == 200:
                 content = json.loads(response.text)
-                print(content)
+                return content
         except Exception as e:
             print(e)
 
