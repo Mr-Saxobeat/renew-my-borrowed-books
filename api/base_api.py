@@ -57,7 +57,7 @@ class BaseApi():
         response = requests.request(
                 method,
                 url,
-                body=body,
+                data=body,
                 headers=headers
             )
         
