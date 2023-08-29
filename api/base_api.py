@@ -4,7 +4,7 @@ import requests
 class BaseApi():
     def __init__(self, url, username, password, web):
         self.url = url
-        self.token = self.authenticate(username, password, web)
+        self.authenticate(username, password, web)
 
 
     def authenticate(self, username, password, web):
