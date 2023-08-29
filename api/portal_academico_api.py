@@ -1,5 +1,5 @@
 import json
-from base_api import BaseApi
+from api.base_api import BaseApi
 from decouple import config
 
 
