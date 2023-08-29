@@ -35,8 +35,9 @@ class Main():
 
     def renova(self, livro):
         return self.api.renova_obra(livro['codigo'])
-    
-if __name__ == '__main__':
+
+
+def handler(event, context):
     main = Main()
     main.process()
 
