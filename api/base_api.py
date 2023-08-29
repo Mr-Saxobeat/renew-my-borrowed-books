@@ -31,6 +31,9 @@ class BaseApi():
 
                 dados_pessoais = content.get('dadosPessoais', {})
                 self.cod_pessoa = dados_pessoais.get('codpessoa')
+            else:
+                content = json.loads(response.text)
+                print(content)
         except Exception as e:
             print(e)
 
@@ -54,6 +57,7 @@ class BaseApi():
             body.update(**kbody)
 
         url = f'{self.url}{path}'
+
         response = requests.request(
                 method,
                 url,
