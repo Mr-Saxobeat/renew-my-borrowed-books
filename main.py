@@ -7,7 +7,7 @@ class Main():
         self.api = PortalAcademicoApi()
 
 
-    def main(self):
+    def process(self):
         livros_renovavies = self.lista_livros_renovaveis()
         agora = datetime.now()
 
