@@ -40,6 +40,10 @@ class BaseApi():
             'Authorization': self.access_token
         }
 
+        if kwargs.get('headers'):
+            kheaders = kwargs.get('headers')
+            headers.update(kheaders)
+
         body = {
             'contextoaluno': self.contexto,
             'codpessoa': self.cod_pessoa
