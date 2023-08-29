@@ -15,6 +15,12 @@ class PortalAcademicoApi(BaseApi):
 
     def lista_emprestimo_renovavel(self):
         path = f'/api/biblioteca/listaemprestimorenovavel'
+        
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'Host': 'portal.multivix.edu.br',
+            'Content-Length': '144'
+        }
 
         try:
             response = self.request(
