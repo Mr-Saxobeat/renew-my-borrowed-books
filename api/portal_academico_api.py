@@ -13,7 +13,7 @@ class PortalAcademicoApi(BaseApi):
         )
 
 
-    def lista_emprestimo_renovavel(self):
+    def list_borrowed_books(self):
         path = f'/api/biblioteca/listaemprestimorenovavel'
         
         headers = {
@@ -27,24 +27,21 @@ class PortalAcademicoApi(BaseApi):
 
             if response.status_code == 200:
                 content = json.loads(response.text)
-                return content
+                borrowed_books = content.get('renovaveis')
+                return borrowed_books
         except Exception as e:
             print(e)
 
 
-    def renova_obra(self, code):
+    def renew_book(self, book_code):
         path = f'/api/biblioteca/renovaobra'
 
         body = {
-            'codigo': code
+            'codigo': book_code
         }
 
         try:
-            response = self.request(
-                'POST',
-                path,
-                body=body,
-            )
+            response = self.request('POST', path, body=body)
             return response
         except Exception as e:
             print(e)

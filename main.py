@@ -3,48 +3,40 @@ from datetime import datetime
 from api.logger_api import ApiLogger
 
 
-class Main():
+class Event():
     def __init__(self):
         self.api = PortalAcademicoApi()
+        self.logger = ApiLogger(__name__)
+        self.now = datetime.now()
 
 
     def process(self):
-        logger = ApiLogger(__name__)
+        borrowed_books = self.api.list_borrowed_books()
 
-        logger.info("Listando livros renováveis...")
-        livros_renovavies = self.lista_livros_renovaveis()
-        agora = datetime.now()
+        self.logger.info(f'Livros renováveis: {borrowed_books}')
 
-        logger.info(f'Livros renováveis: {livros_renovavies}')
-        for livro in livros_renovavies:
-            data_devolucao = self.get_data_devolucao(livro)
-            logger.info(f'Data de devolução do livro {livro["ttl_nome"]}: {data_devolucao}')
-
-            if agora > data_devolucao:
-                logger.info(f'Renovando livro {livro["ttl_nome"]}')
-                self.renova(livro)
+        for book in borrowed_books:
+            self.renew_if_reached_due_date(book)
 
 
-    def lista_livros_renovaveis(self):
-        try:
-            response = self.api.lista_emprestimo_renovavel()
-            renovaveis = response.get('renovaveis')
-            return renovaveis
-        except Exception as e:
-            print(e)
+    def renew_if_reached_due_date(self, book: dict):
+        due_date = self.get_due_date(book)
+
+        self.logger.info(f'Data de devolução do livro {book["ttl_nome"]}: {due_date}')
+
+        if self.now < due_date:
+            self.logger.info(f'Renovando livro: {book["ttl_nome"]}')
+
+            book_code = book['codigo']
+            self.api.renew_book(book_code)
 
 
-    def get_data_devolucao(self, livro):
-        dtdevolucaoestimada = livro.get('dtdevolucaoestimada')
-        data_devolucao = datetime.strptime(dtdevolucaoestimada, '%Y-%m-%dT%H:%M:%S')
-        return data_devolucao
+    def get_due_date(self, livro: dict):
+        unformatted_due_date = livro.get('dtdevolucaoestimada')
+        due_date = datetime.strptime(unformatted_due_date, '%Y-%m-%dT%H:%M:%S')
+        return due_date
 
 
-    def renova(self, livro):
-        return self.api.renova_obra(livro['codigo'])
-
-
-def handler(event, context):
-    main = Main()
-    main.process()
-
+# def handler(event, context):
+event = Event()
+event.process()
