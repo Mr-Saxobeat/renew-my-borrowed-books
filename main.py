@@ -1,12 +1,12 @@
-from api.portal_academico_api import PortalAcademicoApi
 from datetime import datetime
-from api.logger_api import ApiLogger
+from api.logger_api import LoggerApi
+from api.library_api import LibraryApi
 
 
 class Event():
     def __init__(self):
-        self.api = PortalAcademicoApi()
-        self.logger = ApiLogger(__name__)
+        self.api = LibraryApi()
+        self.logger = LoggerApi(__name__)
         self.now = datetime.now()
 
 
