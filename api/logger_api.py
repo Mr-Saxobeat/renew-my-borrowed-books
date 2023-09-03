@@ -1,9 +1,8 @@
+import os
 import logging
 
-import os
 
-
-class ApiLogger(logging.Logger):
+class LoggerApi(logging.Logger):
     """Custom logger for API application"""
 
     LOG_LEVELS = {
