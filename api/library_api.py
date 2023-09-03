@@ -3,7 +3,7 @@ from api.base_api import BaseApi
 from decouple import config
 
 
-class PortalAcademicoApi(BaseApi):
+class LibraryApi(BaseApi):
     def __init__(self):
         super().__init__(
             config('URL'),
