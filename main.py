@@ -24,7 +24,7 @@ class Event():
 
         self.logger.info(f'Data de devolução do livro {book["ttl_nome"]}: {due_date}')
 
-        if self.now < due_date:
+        if self.now > due_date:
             self.logger.info(f'Renovando livro: {book["ttl_nome"]}')
 
             book_code = book['codigo']
@@ -37,6 +37,6 @@ class Event():
         return due_date
 
 
-# def handler(event, context):
-event = Event()
-event.process()
+def handler(event, context):
+    event = Event()
+    event.process()
